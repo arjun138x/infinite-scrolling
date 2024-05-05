@@ -18,6 +18,10 @@ export class PostsService {
     return await this.postsModel.insertMany(images);
   }
 
+  async filter(author: string): Promise<any> {
+    return await this.postsModel.find({ author }).exec();
+  }
+
   // async create(user: Posts): Promise<Posts> {
   //   const newUser = new this.postsModel(user);
   //   return newUser.save();

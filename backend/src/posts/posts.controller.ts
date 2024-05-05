@@ -1,6 +1,6 @@
 import { Controller, Get, Query, Res, HttpStatus } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { PaginationDto } from './dto/pagination.dto';
+import { AuthorDto, PaginationDto } from './dto/pagination.dto';
 import { Response } from 'express';
 import axios from 'axios';
 @Controller('posts')
@@ -14,6 +14,22 @@ export class PostsController {
     try {
       const { page = 1, limit = 10 } = paginationDto;
       const data = await this.postsService.findAll(+page, +limit);
+      return res.status(HttpStatus.CREATED).send(data);
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send({ error: error?.message || error });
+    }
+  }
+
+  @Get('filter')
+  async filterAuthor(
+    @Query() authorDto: AuthorDto,
+    @Res() res: Response,
+  ): Promise<any> {
+    try {
+      const { author } = authorDto;
+      const data = await this.postsService.filter(author);
       return res.status(HttpStatus.CREATED).send(data);
     } catch (error) {
       return res

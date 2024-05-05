@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, Min } from 'class-validator';
+import { IsOptional, IsInt, Min, IsNotEmpty, IsString } from 'class-validator';
 
 export class PaginationDto {
   @IsOptional()
@@ -10,4 +10,10 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   limit: number = 10;
+}
+
+export class AuthorDto {
+  @IsString()
+  @IsNotEmpty()
+  author: string;
 }
